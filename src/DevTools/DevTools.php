@@ -81,14 +81,14 @@ class DevTools extends PluginBase implements CommandExecutor {
     $pharPath = $this->getDataFolder() . $description->getName() . ".phar";
     if(file_exists($pharPath)) {
       $sender->sendMessage("Phar plugin already exists, overwriting...");
-      @unlink($pharPath);
+      @\Phar::unlinkArchive($pharPath);
     }
     $phar = new \Phar($pharPath);
     $phar->setMetadata(["name" => $description->getName(),"version" => $description->getVersion(),"main" => $description->getMain(),"api" => $description->getCompatibleApis(),"depend" => $description->getDepend(),"description" => $description->getDescription(),"authors" => $description->getAuthors(),"website" => $description->getWebsite(),"creationDate" => time()]);
     if($description->getName() === "DevTools") {
       $phar->setStub("<?php\nrequire(\"phar://\" . __FILE__ . \"/src/DevTools/ConsoleScript.php\");\n__HALT_COMPILER();");
     } else {
-      $phar->setStub("<?php\necho \"PocketMine-MP plugin " . $description->getName() . " v" . $description->getVersion() . "\nThis plugin has been generated using DevTools v" . $this->getDescription()->getVersion() . " on " . date("F jS, Y") . " at " . date("g:i A e.") . "\n----------------\n\";\nif(extension_loaded(\"phar\")) {\n  $phar = new \Phar(__FILE__);\n  foreach($phar->getMetadata() as $key => $value) {\n    echo ucfirst($key) . \": \" . (is_array($value) ? implode(\", \",$value) : $value) . \"\n\";\n  }\n}\n__HALT_COMPILER();");
+      $phar->setStub("<?php\necho \"PocketMine-MP plugin " . $description->getName() . " v" . $description->getVersion() . "\nThis plugin has been generated using DevTools v" . $this->getDescription()->getVersion() . " on " . date("F jS, Y") . " at " . date("g:i A e.") . "\n----------------\n\";\nif(extension_loaded(\"phar\")) {\n  \$phar = new \Phar(__FILE__);\n  foreach(\$phar->getMetadata() as \$key => \$value) {\n    echo ucfirst(\$key) . \": \" . (is_array(\$value) ? implode(\", \",\$value) : \$value) . \"\n\";\n  }\n}\n__HALT_COMPILER();");
     }
     $phar->setSignatureAlgorithm(\Phar::SHA1);
     $reflection = new \ReflectionClass("pocketmine\\plugin\\PluginBase");
@@ -119,7 +119,7 @@ class DevTools extends PluginBase implements CommandExecutor {
     $pharPath = $this->getDataFolder() . $server->getName() . ".phar";
     if(file_exists($pharPath)) {
       $sender->sendMessage("Phar file already exists, overwriting...");
-      @unlink($pharPath);
+      @\Phar::unlinkArchive($pharPath);
     }
     $phar = new \Phar($pharPath);
     $phar->setMetadata(["name" => $server->getName(),"version" => $server->getPocketMineVersion(),"api" => $server->getApiVersion(),"minecraft" => $server->getVersion(),"protocol" => Info::CURRENT_PROTOCOL,"creationDate" => time()]);
