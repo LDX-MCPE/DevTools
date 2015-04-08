@@ -1,46 +1,35 @@
 name: DevTools
 main: DevTools\DevTools
-version: 1.10.0
+version: 2.0-LDX
 api: 1.3.1
 load: STARTUP
-author: PocketMine Team
-description: Helps develop and distribute PocketMine-MP plugins
-website: https://github.com/PocketMine/DevTools
+author: The PocketMine Team & LDX
+description: "A collection of tools made to help PocketMine-MP plugin developers."
+website: "https://github.com/LDX-MCPE/DevTools"
 commands:
- makeserver:
-  description: Creates a PocketMine-MP Phar
-  usage: "/makeserver"
-  permission: devtools.command.makeserver
- makeplugin:
-  description: Creates a Phar plugin from one in source code form
-  usage: "/makeplugin <pluginName>"
-  permission: devtools.command.makeplugin
- checkperm:
-  description: Checks a permission value for the current sender, or a player
-  usage: "/checkperm <node> [playerName]"
-  permission: "devtools.command.checkperm;devtools.command.checkperm.other"
+  makeserver:
+    description: "Compiles a copy of PocketMine-MP into a Phar."
+    usage: "/makeserver"
+    permission: devtools.command.makeserver
+  makeplugin:
+    description: "Compiles a loaded plugin into a Phar."
+    usage: "/makeplugin <plugin>"
+    permission: devtools.command.makeplugin
 permissions:
- devtools:
-  default: op
-  description: "Allows using all the DevTools things"
-  children:
-   devtools.command:
-    default: op
-    description: "Allows using all the DevTools commands"
+  devtools:
+    default: false
+    description: "Allows access to all DevTools features."
     children:
-     devtools.command.makeplugin:
-      default: op
-      description: "Allows the creation of Phar plugins"
-     devtools.command.extractplugin:
-      default: op
-      description: "Allows the extraction of Phar plugins"
-     devtools.command.makeserver:
-      default: op
-      description: "Allows the creation of a PocketMine-MP Phar"
-     devtools.command.checkperm:
-      default: true
-      description: "Allows checking a permission value"
-      children:
-       devtools.command.checkperm.other:
-        default: op
-        description: "Allows checking others permission value"
+      devtools.command:
+        default: false
+        description: "Allows access to all DevTools commands."
+        children:
+          devtools.command.makeplugin:
+            default: op
+            description: "Allows access to the makeplugin command."
+          devtools.command.extractplugin:
+            default: op
+            description: "Allows access to the extractplugin command."
+          devtools.command.makeserver:
+            default: op
+            description: "Allows access to the makeserver command."
