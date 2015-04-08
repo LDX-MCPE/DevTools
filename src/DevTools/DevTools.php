@@ -47,7 +47,7 @@ class DevTools extends PluginBase implements CommandExecutor {
     $pharPath = $this->getDataFolder() . "FolderPluginLoader.phar";
     if(file_exists($pharPath)) {
       $sender->sendMessage("Phar plugin already exists, overwriting...");
-      @unlink($pharPath);
+      @\Phar::unlinkArchive($pharPath);
     }
     $phar = new \Phar($pharPath);
     $phar->setMetadata(["name" => "FolderPluginLoader","version" => "1.0.0","main" => "FolderPluginLoader\\Main","api" => ["1.0.0"],"depend" => [],"description" => "Loader of folder plugins","authors" => ["PocketMine Team"],"website" => "https://github.com/PocketMine/DevTools","creationDate" => time()]);
